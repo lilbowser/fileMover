@@ -8,7 +8,8 @@ __version__ = "0.6.3"
 minutes = 60
 sleepTime = 2 * minutes
 subDirScans = True
-while (1):
+
+while True:
 
     baseDir = os.getcwd()
 
@@ -261,14 +262,19 @@ while (1):
                 createdDir = createdDir + " - [autoDir]"
                 print(sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item)
                 os.mkdir(animeDir + "\\" + createdDir)
-                shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item)
+                try:
+                    shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item)
+                except WindowsError:
+                    print("File could not be moved!")
                 destDirList.append(createdDir)  # We have created a directory, it needs to be added to the list
 
             else:
                 print("Moving file into discovered directory")
                 print(sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item)
-                shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item)
-
+                try:
+                    shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item)
+                except WindowsError:
+                    print("File could not be moved!")
             print(" ")  # Add a newline at the end of each series.
         # elif ((seriesName.lower().find(TheDailyShowID) > -1) and lftpDownloading == False):#This is a dailyshow vid.
         # 	print "Show matched as non animu series THE.DAILY.SHOW"
@@ -314,10 +320,6 @@ while (1):
 
 
     # ---End of baseDir Scan
-
-
-
-
 
     print("Going to sleep")
     time.sleep(sleepTime)
