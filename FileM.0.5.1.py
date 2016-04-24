@@ -4,7 +4,7 @@ import shutil
 import re
 import time
 
-__version__ = "0.5.3"
+__version__ = "0.6.3"
 minutes = 60
 sleepTime = 2 * minutes
 subDirScans = True
@@ -91,12 +91,12 @@ while (1):
                     skipDir = False
 
             if skipDir == False:  # We need to move the subDir.
-                print "Moving subDir into animu folder"
-                print subDirURI, animeDir  # + "\\" + subDirBasePath
+                print("Moving subDir into animu folder")
+                print(subDirURI, animeDir)  # + "\\" + subDirBasePath
                 try:
                     shutil.move(subDirURI, animeDir)  # sourced dir, dest dir
                 except:
-                    print "Folder already exsists. Unable to move!"
+                    print("Folder already exsists. Unable to move!")
 
                 # ---
     # end subdir scaning
@@ -109,7 +109,7 @@ while (1):
             overrideList.append(line)
 
     except IOError as e:  # If no override list is found, move on.
-        print "No override file found. Continuing."
+        print("No override file found. Continuing.")
 
     # ---Scan through the directory/file list and sort them into the apropriate list
     # Recreate the lists so they are empty
@@ -172,9 +172,9 @@ while (1):
 
             sanatizedSeriesName = regExedSeriesName.lower()  # make it all lowercase
 
-            print "AniFile:" + item
-            print "Found Series Name:" + regExedSeriesName + "."
-            print "Sanatized Series Name:" + sanatizedSeriesName + "."
+            print("AniFile:" + item)
+            print("Found Series Name:" + regExedSeriesName + ".")
+            print("Sanatized Series Name:" + sanatizedSeriesName + ".")
 
             # we need to do a few sanitations to improve matching abilities.
 
@@ -205,24 +205,24 @@ while (1):
             if ((len(
                     possibleDirCanidates) > 0)):  # or (len(possibleSourceDirCanidates) > 0)):#1: #We need to narrow down the posibilities to one. #We will implement narrow down later, for now, take first match.
                 stripedSeriesName = sanatizedSeriesName.replace(" ", "")
-                print "Striped Series Name:" + stripedSeriesName
+                print("Striped Series Name:" + stripedSeriesName)
                 # if stripedSeriesName.rfind('-') > -1:
                 # 	stripedSeriesName = stripedSeriesName[0:stripedSeriesName.rfind('-')]
                 # 	print "stripedSeriesName:" + stripedSeriesName
-                print "There are " + str(len(possibleDirCanidates)) + " Possible directories"
+                print("There are " + str(len(possibleDirCanidates)) + " Possible directories")
                 # print "and " + str(len( possibleSourceDirCanidates)) + " Possible Source directories"
                 for dirCan in possibleDirCanidates:  # NOTE: we currently do not escape if we find a match!!
                     stripedDirCan = dirCan.replace(" ", "")
                     stripedDirCan = stripedDirCan.lower()
-                    print "SanatizedDirCan:" + stripedDirCan
+                    print("SanatizedDirCan:" + stripedDirCan)
                     if stripedDirCan.find("-[") > -1:
                         stripedDirCan = stripedDirCan[0:stripedDirCan.find("-[")]
-                        print "stripedDirCan:" + stripedDirCan
+                        print("stripedDirCan:" + stripedDirCan)
 
                     if stripedDirCan == stripedSeriesName:
                         dirMatched = True
                         matchedDir = dirCan
-                        print "MatchedDir:" + dirCan
+                        print("MatchedDir:" + dirCan)
 
 
                 # for dirCan in possibleSourceDirCanidates: #NOTE: we currently do not escape if we find a match!!
@@ -247,29 +247,29 @@ while (1):
                     # the initial canidate selection is a loose match. Lets just use the first result of that.
                     dirMatched = True
                     matchedDir = possibleDirCanidates[0]
-                    print "Forced matched dir:" + matchedDir
+                    print("Forced matched dir:" + matchedDir)
 
 
 
             else:
-                print "No Canidates were found!"
+                print("No Canidates were found!")
 
             if dirMatched == False:
-                print "ALERT! We were unable to match a directory for " + seriesName + ". Creating new directory."
+                print("ALERT! We were unable to match a directory for " + seriesName + ". Creating new directory.")
                 createdDir = regExedSeriesName
                 createdDir = createdDir.replace("_", " ")
                 createdDir = createdDir + " - [autoDir]"
-                print sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item
+                print(sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item)
                 os.mkdir(animeDir + "\\" + createdDir)
                 shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + createdDir + "\\" + item)
                 destDirList.append(createdDir)  # We have created a directory, it needs to be added to the list
 
             else:
-                print "Moving file into discovered directory"
-                print sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item
+                print("Moving file into discovered directory")
+                print(sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item)
                 shutil.move(sourceScanDir + "\\" + item, animeDir + "\\" + matchedDir + "\\" + item)
 
-            print " "  # Add a newline at the end of each series.
+            print(" ")  # Add a newline at the end of each series.
         # elif ((seriesName.lower().find(TheDailyShowID) > -1) and lftpDownloading == False):#This is a dailyshow vid.
         # 	print "Show matched as non animu series THE.DAILY.SHOW"
         # 	print "Moving it into THE.DAILY.SHOW folder!"
@@ -278,18 +278,18 @@ while (1):
             lowerSeriesName = seriesName.lower()
             for nonAnimeShow in nonAnimeShowID:
                 if ((lowerSeriesName.find(nonAnimeShow) > -1) and lftpDownloading == False):
-                    print "Show matched as non animu series " + nonAnimeShow
+                    print("Show matched as non animu series " + nonAnimeShow)
                     showDir = nonAnimeShowBaseDir + nonAnimeShow.replace(".", " ")
                     shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + item)
 
             for specialCaseShow in specialCaseNonAnimeShowID:
                 # print "Scaning for " + specialCaseShow
                 if ((lowerSeriesName.find(specialCaseShow) > -1) and lftpDownloading == False):
-                    print "Found a special case"
+                    print("Found a special case")
                     if specialCaseShow == specialCaseNonAnimeShowID[0]:  # Steven Universe
                         if (lowerSeriesName.find(
                                 ".hdtv.") > -1):  # Only the HDTV releases are fucked up. The WebDL Releases are ok
-                            print "Show matched as Steven Universe! Preforming Numbering Defuckup Routine."
+                            print("Show matched as Steven Universe! Preforming Numbering Defuckup Routine.")
                             showDir = specialCaseNonAnimeBaseDir + "Steven Universe - [Season Two] - [Unfinished]"
 
                             # This is a shity way of doing this but......... its late, and I am tired and I just dont give a fuck.
@@ -319,10 +319,10 @@ while (1):
 
 
 
-    print "Going to sleep"
+    print("Going to sleep")
     time.sleep(sleepTime)
-    print "Waking Up"
-    print " "
+    print("Waking Up")
+    print(" ")
 
 
 
