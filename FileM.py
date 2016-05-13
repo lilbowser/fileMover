@@ -36,7 +36,7 @@ while True:
                       "the.late.show.with.stephen.colbert"]
     nonAnimeShowBaseDir = sourceScanDir + "\\"
 
-    specialCaseNonAnimeShowID = ["steven.universe"]
+    specialCaseNonAnimeShowID = []  # ["steven.universe"]
     specialCaseNonAnimeBaseDir = sourceScanDir + "\\"
 
     # print directoryFileList
@@ -288,35 +288,35 @@ while True:
                     showDir = nonAnimeShowBaseDir + nonAnimeShow.replace(".", " ")
                     shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + item)
 
-            for specialCaseShow in specialCaseNonAnimeShowID:
-                # print "Scaning for " + specialCaseShow
-                if ((lowerSeriesName.find(specialCaseShow) > -1) and lftpDownloading == False):
-                    print("Found a special case")
-                    if specialCaseShow == specialCaseNonAnimeShowID[0]:  # Steven Universe
-                        if (lowerSeriesName.find(
-                                ".hdtv.") > -1):  # Only the HDTV releases are fucked up. The WebDL Releases are ok
-                            print("Show matched as Steven Universe! Preforming Numbering Defuckup Routine.")
-                            showDir = specialCaseNonAnimeBaseDir + "Steven Universe - [Season Two] - [Unfinished]"
-
-                            # This is a shity way of doing this but......... its late, and I am tired and I just dont give a fuck.
-
-                            epNumIndex = lowerSeriesName.find(".s02e")
-                            epNumIndex = epNumIndex + 5  # This is because find will give us the begining of the find string
-
-                            epNumber = item[epNumIndex:(epNumIndex + 2)]  # Find the episode number
-                            newEpNumber = int(epNumber) + 3  # Defuck up the number
-
-                            if newEpNumber < 10:  # ensure that eps lower than 10 are 0 padded
-                                newEpNumber = "0" + str(newEpNumber)
-                            else:
-                                newEpNumber = str(newEpNumber)
-
-                            defuckedupName = lowerSeriesName.replace("s02e" + epNumber, "s02e" + newEpNumber)
-
-                            shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + defuckedupName)
-                        else:
-                            showDir = specialCaseNonAnimeBaseDir + "Steven Universe - [Season Two] - [Unfinished]"
-                            shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + seriesName)
+            # for specialCaseShow in specialCaseNonAnimeShowID:
+            #     # print "Scaning for " + specialCaseShow
+            #     if ((lowerSeriesName.find(specialCaseShow) > -1) and lftpDownloading == False):
+            #         print("Found a special case")
+            #         if specialCaseShow == specialCaseNonAnimeShowID[0]:  # Steven Universe
+            #             if (lowerSeriesName.find(
+            #                     ".hdtv.") > -1):  # Only the HDTV releases are fucked up. The WebDL Releases are ok
+            #                 print("Show matched as Steven Universe! Preforming Numbering Defuckup Routine.")
+            #                 showDir = specialCaseNonAnimeBaseDir + "Steven Universe - [Season Two] - [Unfinished]"
+            #
+            #                 # This is a shity way of doing this but......... its late, and I am tired and I just dont give a fuck.
+            #
+            #                 epNumIndex = lowerSeriesName.find(".s02e")
+            #                 epNumIndex = epNumIndex + 5  # This is because find will give us the begining of the find string
+            #
+            #                 epNumber = item[epNumIndex:(epNumIndex + 2)]  # Find the episode number
+            #                 newEpNumber = int(epNumber) + 3  # Defuck up the number
+            #
+            #                 if newEpNumber < 10:  # ensure that eps lower than 10 are 0 padded
+            #                     newEpNumber = "0" + str(newEpNumber)
+            #                 else:
+            #                     newEpNumber = str(newEpNumber)
+            #
+            #                 defuckedupName = lowerSeriesName.replace("s02e" + epNumber, "s02e" + newEpNumber)
+            #
+            #                 shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + defuckedupName)
+            #             else:
+            #                 showDir = specialCaseNonAnimeBaseDir + "Steven Universe - [Season Two] - [Unfinished]"
+            #                 shutil.move(sourceScanDir + "\\" + item, showDir + "\\" + seriesName)
 
 
     # ---End of baseDir Scan
