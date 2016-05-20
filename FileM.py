@@ -1,10 +1,12 @@
 import os
+from os import path
 import string
 import shutil
 import re
 import time
+import yaml
 
-__version__ = "0.6.3"
+__version__ = "0.7.0"
 minutes = 60
 sleepTime = 2 * minutes
 subDirScans = True
@@ -12,24 +14,15 @@ subDirScans = True
 while True:
 
     baseDir = os.getcwd()
+    sourceScanDir = path.join(baseDir, "Unsorted-Files")
 
-    if baseDir[-1] == "\\":  # this is needed incase we are in the root directory which will already end in a \
-        baseDirEnd = ""
-    else:
-        baseDirEnd = "\\"
-    # scanDir = baseDir
-    sourceScanDir = baseDir + baseDirEnd + "Unsorted-Files"
-    # sourceScanDir = baseDir + baseDirEnd + "workspace"
-
-    # animeDir = baseDir
-    # animeDir = baseDir + baseDirEnd + "Unsorted-Files"
-    animeDir = baseDir + baseDirEnd + "Unsorted Anime"
-    tvShowDir = baseDir + baseDirEnd + "TV Shows"
+    animeDir = path.join(baseDir, "Unsorted Anime")
+    tvShowDir = path.join(baseDir, "TV Shows")
 
     destinationScanDir = animeDir
 
     overrideFileName = "fileMoverOverride.ini"
-    overrideFilePath = baseDir + baseDirEnd + overrideFileName
+    overrideFilePath = path.join(baseDir, overrideFileName)
 
     # NonAnimeShowIDs must be entered in lower case
     nonAnimeShowID = ["the.daily.show", "the.nightly.show", "last.week.tonight.with.john.oliver",
